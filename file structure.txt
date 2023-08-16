@@ -1,0 +1,132 @@
+.
+├── .babelrc
+├── .editorconfig
+├── .eslintignore
+├── .eslintrc.js
+├── .gitattributes
+├── .gitignore
+├── .postcssrc.js
+├── LICENSE
+├── README.md
+├── build
+│   ├── build.js
+│   ├── check-versions.js
+│   ├── dev-client.js
+│   ├── dev-server.js
+│   ├── utils.js
+│   ├── vue-loader.conf.js
+│   ├── webpack.base.conf.js
+│   ├── webpack.dev.conf.js
+│   └── webpack.prod.conf.js
+├── config
+│   ├── dev.env.js
+│   ├── index.js
+│   └── prod.env.js
+├── docs
+│   ├── demo
+│   │   ├── index.html
+│   │   ├── static
+│   │   │   ├── css
+│   │   │   │   ├── app.1c505032c88bdc6ca4d17c420f39ca86.css
+│   │   │   │   ├── app.1c505032c88bdc6ca4d17c420f39ca86.css.map
+│   │   │   │   ├── vendors.34d13d0c6398972b5e1db6cb001c0f7a.css
+│   │   │   │   └── vendors.34d13d0c6398972b5e1db6cb001c0f7a.css.map
+│   │   │   ├── fonts
+│   │   │   │   ├── MaterialIcons-Regular.012cf6a.woff
+│   │   │   │   ├── MaterialIcons-Regular.570eb83.woff2
+│   │   │   │   ├── MaterialIcons-Regular.a37b0c0.ttf
+│   │   │   │   └── MaterialIcons-Regular.e79bfd8.eot
+│   │   │   ├── js
+│   │   │   │   ├── app.5fc6e445ab75a05e5f9e.js
+│   │   │   │   ├── app.5fc6e445ab75a05e5f9e.js.map
+│   │   │   │   ├── app.6290422cd68510b43c1c.js
+│   │   │   │   ├── app.6290422cd68510b43c1c.js.map
+│   │   │   │   ├── manifest.448a4b9f8f924f78d993.js
+│   │   │   │   ├── manifest.448a4b9f8f924f78d993.js.map
+│   │   │   │   ├── manifest.b8e111229eda8cb87f25.js
+│   │   │   │   ├── manifest.b8e111229eda8cb87f25.js.map
+│   │   │   │   ├── vendor.21632927f8231573309f.js
+│   │   │   │   ├── vendor.21632927f8231573309f.js.map
+│   │   │   │   ├── vendor.e2b0f39a1ab026966b4f.js
+│   │   │   │   ├── vendor.e2b0f39a1ab026966b4f.js.map
+│   │   │   │   ├── vendors.4aba5d60e81d34c22519.js
+│   │   │   │   └── vendors.4aba5d60e81d34c22519.js.map
+│   ├── index.html
+├── index.html
+├── package-lock.json
+├── package.json
+├── src
+│   ├── App.vue
+│   ├── components
+│   │   ├── AceEditor.vue
+│   │   ├── ContextMenu.vue
+│   │   ├── ContextMenuItem.vue
+│   │   ├── JsonEditor.vue
+│   │   ├── JsonTree.vue
+│   │   ├── JsonTreeNode.vue
+│   │   ├── SplitPanel.vue
+│   │   ├── context-menu-items
+│   │   │   ├── AppendMenuItem.vue
+│   │   │   ├── ButtonMenuItem.vue
+│   │   │   ├── CheckBoxMenuItem.vue
+│   │   │   ├── DividerMenuItem.vue
+│   │   │   ├── HeaderMenuItem.vue
+│   │   │   ├── SelectMenuItem.vue
+│   │   │   ├── TextInputMenuItem.vue
+│   │   │   └── index.js
+│   │   ├── icon-module
+│   │   │   ├── array.png
+│   │   │   ├── bookmark24.png
+│   │   │   ├── boolean.png
+│   │   │   ├── dependencies24.png
+│   │   │   ├── enum.png
+│   │   │   ├── enum24.png
+│   │   │   ├── integer.png
+│   │   │   ├── items-24.png
+│   │   │   ├── items24.png
+│   │   │   ├── json.png
+│   │   │   ├── not24.png
+│   │   │   ├── number.png
+│   │   │   ├── object.png
+│   │   │   ├── object24.png
+│   │   │   ├── options24.png
+│   │   │   ├── pen24.png
+│   │   │   ├── properties24.png
+│   │   │   ├── ref24.png
+│   │   │   ├── remark24.png
+│   │   │   ├── required24.png
+│   │   │   ├── string.png
+│   │   │   └── type24.png
+│   │   ├── json-editor
+│   │   │   ├── index.js
+│   │   │   └── menuData.js
+│   │   ├── json-tree
+│   │   │   ├── editors
+│   │   │   │   ├── BlankEditor.vue
+│   │   │   │   ├── BooleanEditor.vue
+│   │   │   │   ├── DateEditor.vue
+│   │   │   │   ├── EnumEditor.vue
+│   │   │   │   ├── IntegerEditor.vue
+│   │   │   │   ├── NumberEditor.vue
+│   │   │   │   ├── StringEditor.vue
+│   │   │   │   ├── editor-mixin.js
+│   │   │   │   └── index.js
+│   │   │   ├── repository.js
+│   │   │   ├── schemaFunctions
+│   │   │   │   ├── index.js
+│   │   │   │   └── json_schema.js
+│   │   │   ├── schemas
+│   │   │   │   ├── Date.json
+│   │   │   │   ├── array.json
+│   │   │   │   ├── boolean.json
+│   │   │   │   ├── index.js
+│   │   │   │   ├── integer.json
+│   │   │   │   ├── json_schema.json
+│   │   │   │   ├── number.json
+│   │   │   │   ├── object.json
+│   │   │   │   ├── sample_order.json
+│   │   │   │   └── string.json
+│   │   │   ├── store.js
+│   ├── main.js
+└── static
+    └── .gitkeep
