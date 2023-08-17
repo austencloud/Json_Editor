@@ -28,16 +28,16 @@ class JsonTree(QTreeWidget):
                 else:
                     parent.addChild(item)
                 for sub_idx, sub_item in enumerate(group[1:]):
-                    sub_key = ["Blue", "Red", "Optimal Location"][sub_idx] if sub_idx < 3 else str(sub_idx)
+                    sub_key = ["Left", "Right", "Optimal Location"][sub_idx] if sub_idx < 3 else str(sub_idx)
                     child_item = QTreeWidgetItem([sub_key])
                     child_item.setData(0, Qt.UserRole, path + [idx, sub_idx + 1])
-                    if sub_key in ["Red", "Blue"]:
+                    if sub_key in ["Left", "Right"]:
                         font = QFont()
                         font.setBold(True)
                         child_item.setFont(0, font)
-                        color = QColor("red") if sub_key == "Red" else QColor("blue")
+                        color = QColor("blue") if sub_key == "Left" else QColor("red")
                         child_item.setForeground(0, QBrush(color))
-                    item.addChild(child_item)
+                    item.addChild(child_item)  # Moved inside the loop
                     if isinstance(sub_item, dict):
                         self.add_subnodes(child_item, sub_item, path + [idx, sub_idx + 1])
 
@@ -57,10 +57,15 @@ class JsonTree(QTreeWidget):
             item = QTreeWidgetItem([str(data)])
             item.setData(0, Qt.UserRole, path)
             item.setFlags(item.flags() | Qt.ItemIsEditable)
+            font = QFont()
+            font.setBold(True)
+            font.setPointSize(font.pointSize() + 3)
+            item.setFont(0, font)
             if parent is None:
                 self.addTopLevelItem(item)
             else:
                 parent.addChild(item)
+
 
     def on_item_expanded(self, item):
         item_text = item.text(0)
@@ -71,7 +76,7 @@ class JsonTree(QTreeWidget):
         for i in range(item.childCount()):
             child = item.child(i)
             child_text = child.text(0)
-            if child_text in ["Red", "Blue"]:
+            if child_text in ["Left", "Right"]:
                 self.expandItem(child)
                 self.expand_leaf_nodes(child)
 
