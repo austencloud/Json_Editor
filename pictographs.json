@@ -7,7 +7,7 @@
             },
             {
                 "color": "blue",
-                "quadrant": "sw",
+                "quadrant": "se",
                 "rotation": "r",
                 "type": "iso",
                 "start_location": "s",
