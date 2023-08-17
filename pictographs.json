@@ -10,13 +10,13 @@
                 "quadrant": "sw",
                 "rotation": "r",
                 "type": "iso",
-                "start_location": "s",
-                "end_location": "w"
+                "start_location": "n",
+                "end_location": "s"
             },
             {
                 "color": "red",
-                "quadrant": "ne",
-                "rotation": "r",
+                "quadrant": "nw",
+                "rotation": "l",
                 "type": "iso",
                 "start_location": "n",
                 "end_location": "e"

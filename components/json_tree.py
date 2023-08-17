@@ -1,8 +1,9 @@
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QTreeWidget, QTreeWidgetItem
+from PyQt5.QtWidgets import QAbstractItemView, QTreeWidget, QTreeWidgetItem
 from PyQt5.QtGui import QFont, QColor, QBrush
-
+from components.repository import PictographSchema
+from components.combo_box_delegate import ComboBoxDelegate
 
 class JsonTree(QTreeWidget):
     def __init__(self, parent=None):
@@ -10,6 +11,8 @@ class JsonTree(QTreeWidget):
         self.itemChanged.connect(self.on_item_changed)
         self.itemExpanded.connect(self.on_item_expanded)
         self.json_data = {}
+        self.setItemDelegate(ComboBoxDelegate(self))
+        self.setEditTriggers(QAbstractItemView.CurrentChanged)  # Start editing on single click
 
     def set_json(self, json_data):
         self.json_data = json_data
@@ -96,7 +99,22 @@ class JsonTree(QTreeWidget):
             self.update_json_data(self.json_data, path, value)
 
     def update_json_data(self, json_data, path, value):
+        # Create an instance of PictographSchema to access the schema
+        schema = PictographSchema().schema
+        property_name = path[-1]  # Assuming the last element in the path is the property name
+
+        # Check if the property has an enum attribute in the schema
+        if "enum" in schema["properties"].get(property_name, {}):
+            valid_values = schema["properties"][property_name]["enum"]
+
+            # Validate the value against the enum
+            if value not in valid_values:
+                # Handle the invalid value (e.g., show an error message or reject the change)
+                print(f"Invalid value for {property_name}: {value}. Must be one of {valid_values}.")
+                return
+
+        # Continue with the update if the value is valid
         outer_list = json_data[path[0]]
         inner_list = outer_list[path[1]]
         color_object = inner_list[path[2]]
-        color_object[path[-1]] = value
+        color_object[property_name] = value
