@@ -13,6 +13,8 @@ class JsonTree(QTreeWidget):
         self.json_data = {}
         self.setItemDelegate(ComboBoxDelegate(self))
         self.setEditTriggers(QAbstractItemView.CurrentChanged)  # Start editing on single click
+        self.setColumnWidth(1, 50)  # Set the width of the second column to 50 pixels
+
 
     def set_json(self, json_data):
         self.json_data = json_data
@@ -20,6 +22,7 @@ class JsonTree(QTreeWidget):
         self.add_subnodes(None, json_data)
 
     def add_subnodes(self, parent, data, path=[]):
+        VERTICAL_PADDING = 10  # Vertical padding value
         if isinstance(data, list):
             for idx, group in enumerate(data):
                 start_position = group[0]["start_position"].replace("alpha", "α").replace("beta", "β").replace("gamma", "Γ")
@@ -48,26 +51,25 @@ class JsonTree(QTreeWidget):
             for key, value in data.items():
                 if key == "color":  # Skip the "color" attribute
                     continue
-                item = QTreeWidgetItem([key])
-                item.setData(0, Qt.UserRole, path + [key])
-                if parent is None:
-                    self.addTopLevelItem(item)
+                if isinstance(value, (dict, list)):
+                    item = QTreeWidgetItem([key])
+                    item.setData(0, Qt.UserRole, path + [key])
+                    if parent is None:
+                        self.addTopLevelItem(item)
+                    else:
+                        parent.addChild(item)
+                    self.add_subnodes(item, value, path + [key])
                 else:
-                    parent.addChild(item)
-                self.add_subnodes(item, value, path + [key])
+                    # Padding for leaf nodes
+                    text = f"{key} - {value}"
+                    item = QTreeWidgetItem([text])
+                    item.setData(0, Qt.UserRole, path + [key])
+                    item.setFlags(item.flags() | Qt.ItemIsEditable)
+                    if parent is None:
+                        self.addTopLevelItem(item)
+                    else:
+                        parent.addChild(item)
 
-        else:
-            item = QTreeWidgetItem([str(data)])
-            item.setData(0, Qt.UserRole, path)
-            item.setFlags(item.flags() | Qt.ItemIsEditable)
-            font = QFont()
-            font.setBold(True)
-            font.setPointSize(font.pointSize() + 3)
-            item.setFont(0, font)
-            if parent is None:
-                self.addTopLevelItem(item)
-            else:
-                parent.addChild(item)
 
 
     def on_item_expanded(self, item):
@@ -99,6 +101,7 @@ class JsonTree(QTreeWidget):
             self.update_json_data(self.json_data, path, value)
 
     def update_json_data(self, json_data, path, value):
+        key, value = value.split(' - ')  # Extract the value part of the text
         # Create an instance of PictographSchema to access the schema
         schema = PictographSchema().schema
         property_name = path[-1]  # Assuming the last element in the path is the property name

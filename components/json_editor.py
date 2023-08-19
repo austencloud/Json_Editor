@@ -12,7 +12,7 @@ class JsonEditor(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         
-        self.resize(800, 1200)
+        self.resize(1200, 1200)
 
         self.json_data = {}
         self.json_tree = JsonTree()
@@ -20,7 +20,7 @@ class JsonEditor(QMainWindow):
         self.current_file_path = None  # To keep track of the source file
 
         self.save_status_label = QLabel("")
-        self.save_status_label.setMaximumHeight(16)
+        self.save_status_label.setMaximumHeight(20)
         self.save_status_label.setStyleSheet("font: 12pt")
         self.save_status_label.setAlignment(Qt.AlignCenter)
 
