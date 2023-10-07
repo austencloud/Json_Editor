@@ -1,9 +1,10 @@
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QAbstractItemView, QTreeWidget, QTreeWidgetItem
+from PyQt5.QtWidgets import QAbstractItemView, QTreeWidget, QTreeWidgetItem, QTreeWidgetItemIterator
 from PyQt5.QtGui import QFont, QColor, QBrush
 from components.repository import PictographSchema
 from components.combo_box_delegate import ComboBoxDelegate
+
 
 class JsonTree(QTreeWidget):
     def __init__(self, parent=None):
@@ -14,6 +15,31 @@ class JsonTree(QTreeWidget):
         self.setItemDelegate(ComboBoxDelegate(self))
         self.setEditTriggers(QAbstractItemView.CurrentChanged)  # Start editing on single click
         self.setColumnWidth(1, 50)  # Set the width of the second column to 50 pixels
+
+    def filter_tree(self, search_text, selected_keys, selected_values, item=None):
+        if item is None:
+            item = self.invisibleRootItem()
+
+        child_match = False
+
+        key_match = item.text(0).split(": ")[0] in selected_keys
+        value_match = item.text(0).split(": ")[-1] in selected_values
+        search_match = search_text in item.text(0).lower()
+
+        self_match = key_match or value_match or search_match
+
+        for i in range(item.childCount()):
+            child_item = item.child(i)
+            child_match = self.filter_tree(search_text, selected_keys, selected_values, child_item) or child_match
+
+        item.setHidden(not (self_match or child_match))
+
+        if self_match or child_match:
+            self.expandItem(item)
+        else:
+            self.collapseItem(item)
+
+        return self_match or child_match
 
 
     def set_json(self, json_data):
