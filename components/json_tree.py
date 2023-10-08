@@ -16,21 +16,35 @@ class JsonTree(QTreeWidget):
         self.setEditTriggers(QAbstractItemView.CurrentChanged)  # Start editing on single click
         self.setColumnWidth(1, 50)  # Set the width of the second column to 50 pixels
 
-    def filter_tree(self, search_text, selected_keys, selected_values, item=None):
+    def filter_tree(self, search_text, selected_values, item=None):
+        print(f"Filtering with: {search_text}, {selected_values}")
         if item is None:
             item = self.invisibleRootItem()
 
+        # If all are empty, show everything
+        if search_text == "" and len(selected_values) == 0:
+            item.setHidden(False)
+            for i in range(item.childCount()):
+                child_item = item.child(i)
+                self.filter_tree(search_text, selected_values, child_item)
+            return True
+
         child_match = False
 
-        key_match = item.text(0).split(": ")[0] in selected_keys
+        # Check for key and value matches
         value_match = item.text(0).split(": ")[-1] in selected_values
-        search_match = search_text in item.text(0).lower()
 
-        self_match = key_match or value_match or search_match
+        # Check for search text match
+        if isinstance(search_text, list):
+            search_match = any(text in item.text(0).lower() for text in search_text)
+        else:
+            search_match = search_text in item.text(0).lower()
+            
+        self_match = (value_match or not selected_values) and (search_match or not search_text)
 
         for i in range(item.childCount()):
             child_item = item.child(i)
-            child_match = self.filter_tree(search_text, selected_keys, selected_values, child_item) or child_match
+            child_match = self.filter_tree(search_text, selected_values, child_item) or child_match
 
         item.setHidden(not (self_match or child_match))
 
@@ -40,7 +54,6 @@ class JsonTree(QTreeWidget):
             self.collapseItem(item)
 
         return self_match or child_match
-
 
     def set_json(self, json_data):
         self.json_data = json_data
